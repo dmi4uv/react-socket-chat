@@ -31,6 +31,7 @@
 }
 .messages::-webkit-scrollbar { width: 0; }
 .message {
+  display: block;
   min-height: 50px;
   border: 1px solid black;
   border-radius: 15px;
@@ -39,7 +40,9 @@
   text-align: left;
 
   span {
-    color: #000000;
+
+    display: block;
+    color: #ffd593;
     float: right;
     margin-right: 20px;
   }
@@ -54,7 +57,11 @@
       color: #ffd593;
     }
   }
-
+  p {
+    margin-top: 20px;
+    display: block;
+    padding: 10px 40px;
+  }
   &_my{
   text-align: right;
   }
@@ -64,8 +71,20 @@
 .message_bar{
   width: 100%;
   display: flex;
-}
-.message_bar input{
-  height: 50px;
-  width: 100%;
+
+  input{
+    height: 50px;
+    margin-right: 30px;
+    width: 100%;
+    padding: 0 30px;
+  }
+
+  button{
+    background: transparent;
+    color: white;
+    padding: 0 20px;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+  }
+
 }

@@ -13,8 +13,8 @@ const Menu = () =>{
                 #">Settings</Link>
 
                 <a href="#" onClick={()=>{
-                    setUserName(null)
-                    socket.disconnect()
+                   /* setUserName(null)
+                    socket.disconnect()*/
                 }}>Logout</a>
             </nav>
         </div>

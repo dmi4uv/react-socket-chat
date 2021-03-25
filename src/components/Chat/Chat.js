@@ -89,8 +89,8 @@ const Chat = () =>{
                             })}
                         </div>
                         <div className="message_bar">
-                            <input value={myMessage} type="text"  onKeyPress={handleKeyPress} onChange={handleInputChange}/>
-                            <button onClick={myMessage?sendMessage:null}>Send</button>
+                            <input placeholder="Введите сообщение" value={myMessage} type="text"  onKeyPress={handleKeyPress} onChange={handleInputChange}/>
+                            <button onClick={myMessage?sendMessage:null}>Отправить</button>
                         </div>
                     </div>
                 </div>
