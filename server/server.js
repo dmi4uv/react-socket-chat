@@ -8,8 +8,28 @@ const expressServer =  app.listen(PORT,()=>{
 })
 
 const io = socketIo(expressServer)
+
 const onlineUsers = []
 const message_history = []
+const interval = 86400*1000
+
+function clearChat() {
+    message_history.length = 0
+}
+
+app.get('/clear', (req, res) => {
+    clearChat()
+    res.send('Чат очищен');
+})
+
+app.get('/', (req, res) => {
+    res.send('Для очистки истории сообщений /clear');
+})
+
+
+setInterval(()=>{
+    clearChat()
+},interval)
 
 io.on('connection',(socket)=>{
 
@@ -25,7 +45,7 @@ io.on('connection',(socket)=>{
         io.emit("update_user_list", onlineUsers)
         io.emit('online')
 
-            //без проверки сервер падает
+        //без проверки сервер падает
         if (item) {
             const userName = item.userName
             message_history.push({name:"system", type:"SYSTEM_EVENT_USER_DISCONNECTED", message: userName })
@@ -36,7 +56,7 @@ io.on('connection',(socket)=>{
 
     socket.on("get_messages_from_back", ()=>{
         io.emit("get_messages_from_back",message_history)
-     /*   console.log(message_history)*/
+        /*   console.log(message_history)*/
     })
 
     socket.on("new_message_from_client", (data)=>{
@@ -52,6 +72,6 @@ io.on('connection',(socket)=>{
         io.emit("update_user_list", onlineUsers)
         message_history.push({name:"system", type:"SYSTEM_EVENT_USER_CONNECTED", message: data })
         io.emit("new_user_connected", data)
-     /*   console.log(onlineUsers)*/
+        /*   console.log(onlineUsers)*/
     })
 })

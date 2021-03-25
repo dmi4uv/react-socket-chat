@@ -33,14 +33,14 @@
 .message {
   display: block;
   min-height: 50px;
-  border: 1px solid black;
+  border: 1px solid #b1b1b1;
   border-radius: 15px;
   width: auto;
   margin: 10px 0;
   text-align: left;
 
   span {
-
+    cursor: pointer;
     display: block;
     color: #ffd593;
     float: right;
@@ -54,6 +54,7 @@
     text-align: center;
     font-style: italic;
     span {
+      cursor: pointer;
       color: #ffd593;
     }
   }
@@ -85,6 +86,10 @@
     padding: 0 20px;
     border: 1px solid #ffffff;
     border-radius: 20px;
+    cursor: pointer;
+    &:focus{
+      outline: none;
+    }
   }
 
 }

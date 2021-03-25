@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useHistory } from 'react-router-dom'
-import {socket} from "../../utils/socket";
+import {socket} from "../../utils/Socket";
 import './Login.scss'
 import UserNameContext from "../../utils/UserNameContext";
 const Login = () =>{
@@ -8,7 +8,8 @@ const Login = () =>{
     const history = useHistory()
     const [userName, setUsername] = useState("")
     const [loginClasses, setLoginClasses] = useState("login")
-    const sendButtonClick = () =>{
+
+    const auth = () => {
         if (userName){
             setLoginClasses("login hidden")
             setTimeout(()=>{
@@ -23,8 +24,18 @@ const Login = () =>{
         else {
             alert("Введите имя")
         }
-
     }
+
+    const sendButtonClick = () =>{
+        auth()
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            auth()
+        }
+    }
+
     return <div className={loginClasses}>
 
         <div className="area">
@@ -43,7 +54,7 @@ const Login = () =>{
         </div>
         <div className="login_box">
             <h1>react socket.io chat</h1>
-            <input required placeholder="Введите имя" value={userName} type="text" onChange={(e)=>setUsername(e.target.value)} />
+            <input required placeholder="Введите имя" value={userName} type="text" onKeyPress={handleKeyPress} onChange={(e)=>setUsername(e.target.value)} />
             <button className={userName?"button_visible":""} onClick={sendButtonClick}>Войти</button>
         </div>
 

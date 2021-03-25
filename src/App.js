@@ -28,6 +28,7 @@ function App() {
   return (
       <Router>
           <div className="App">
+
               <UserNameContext.Provider value={{setIsAuthenticated, userName, setUserName}}>
                   {/*{isAuthenticated?<Menu/>:null}*/}
                   <Switch>

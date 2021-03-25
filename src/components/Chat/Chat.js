@@ -1,15 +1,26 @@
-import React, {useState,useEffect,Fragment} from 'react'
-import './style.scss'
-import {socket} from "../../utils/socket";
+import React, {useState,useEffect,useRef} from 'react'
+import './Chat.scss'
+import {socket} from "../../utils/Socket.js";
 import UserNameContext from "../../utils/UserNameContext";
 import Menu from "../Menu/Menu";
 
 const Chat = () =>{
+    const chatRef = useRef(null);
     const {userName} = React.useContext(UserNameContext)
     const [myMessage, setMyMessage] = useState("")
     const [userList, setUserList] = useState([])
     const [chatData,setChatData] = useState([{name: "Dmitry", message: 213}])
     const [chatClasses,setChatClasses] = useState("chat chat_hidden")
+
+    useEffect(()=>{
+        if(chatRef && chatRef.current) {
+            const element = chatRef.current
+            element.scroll({
+                top: element.scrollHeight,
+                left: 0,
+                behavior: "smooth"
+            })
+    }},[chatRef, chatData])
 
     useEffect(()=>{
         setTimeout(()=>{
@@ -39,8 +50,10 @@ const Chat = () =>{
         if (e.key === "Enter") {
             sendMessage()
         }
-        return
+    }
 
+    const handleSpanClick = (e) =>{
+        setMyMessage(prevState => prevState + e.target.innerText +', ')
     }
 
     const handleInputChange = (e) => {
@@ -56,8 +69,9 @@ const Chat = () =>{
     return (
             <div className={chatClasses}>
                 <Menu/>
-                <div className="chat_container">
+                <div className="chat_container" >
                     <div className="users">
+                        <p>Online users: {userList.length}</p>
                         <ul>
                             {userList.map(({userName}, index)=>{
                                 return <li key={index}>{userName}</li>
@@ -65,23 +79,23 @@ const Chat = () =>{
                         </ul>
                     </div>
                     <div className="chat_form">
-                        <div className="messages">
+                        <div className="messages" ref={chatRef}>
                             {chatData.map((item,index)=>{
                                 if (item.type==="SYSTEM_EVENT_USER_CONNECTED"){
                                     return  (
                                         <div className="message_system">
-                                            Пользователь   <span>{item.message}</span> вошел в чат.
+                                            Пользователь   <span onClick={handleSpanClick}>{item.message}</span> вошел в чат.
                                         </div>
                                     )
                                 } else if (item.type==="SYSTEM_EVENT_USER_DISCONNECTED"){
                                     return  (
                                         <div className="message_system">
-                                            Пользователь   <span>{item.message}</span> вышел из чата.
+                                            Пользователь   <span onClick={handleSpanClick}>{item.message}</span> вышел из чата.
                                         </div>
                                     )
                                 } else {
                                     return (<div className={item.name===userName?"message message_my":"message"}>
-                                        <span>{item.name===userName?"Вы":item.name}</span>
+                                        <span onClick={handleSpanClick}>{item.name===userName?"Вы":item.name}</span>
                                         <p  key={index}> {item.message}</p>
                                     </div>)
                                 }
