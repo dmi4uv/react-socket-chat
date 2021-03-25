@@ -29,7 +29,7 @@ function App() {
       <Router>
           <div className="App">
               <UserNameContext.Provider value={{setIsAuthenticated, userName, setUserName}}>
-                  {isAuthenticated?<Menu/>:null}
+                  {/*{isAuthenticated?<Menu/>:null}*/}
                   <Switch>
 
                       <Route path="/" exact>

@@ -6,18 +6,45 @@ import UserNameContext from "../../utils/UserNameContext";
 const Login = () =>{
     const {setIsAuthenticated, setUserName} = React.useContext(UserNameContext)
     const history = useHistory()
-    const [userName, setUsername] = useState("default")
+    const [userName, setUsername] = useState("")
+    const [loginClasses, setLoginClasses] = useState("login")
     const sendButtonClick = () =>{
-        setUserName(userName)
-        setIsAuthenticated(true)
-        socket.emit("new_user_connected",userName)
-        history.push('/chat')
-        socket.emit("get_messages_from_back")
+        if (userName){
+            setLoginClasses("login hidden")
+            setTimeout(()=>{
+                setUserName(userName)
+                setIsAuthenticated(true)
+                socket.emit("new_user_connected",userName)
+                history.push('/chat')
+                socket.emit("get_messages_from_back")
+            }, 100)
+
+        }
+        else {
+            alert("Введите имя")
+        }
+
     }
-    return <div className="login">
+    return <div className={loginClasses}>
+
+        <div className="area">
+            <ul className="circles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
         <div className="login_box">
-            <input value={userName} type="text" onChange={(e)=>setUsername(e.target.value)} />
-            <button onClick={sendButtonClick}>Go</button>
+            <h1>react socket.io chat</h1>
+            <input required placeholder="Введите имя" value={userName} type="text" onChange={(e)=>setUsername(e.target.value)} />
+            <button className={userName?"button_visible":""} onClick={sendButtonClick}>Войти</button>
         </div>
 
     </div>
